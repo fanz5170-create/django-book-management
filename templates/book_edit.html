@@ -1,0 +1,29 @@
+{% extends 'home.html' %}
+
+{% block content %}
+	<h3 class="text-center">图书编辑</h3>
+    <form action="" method="post">
+        <p>书名: <input type="text" name="title" class="form-control" value="{{ book_obj.title }}"></p>
+        <p>价格: <input type="text" name="price" class="form-control" value="{{ book_obj.price }}"></p>
+        <p>出版日期: <input type="date" name="date" class="form-control" value="{{ book_obj.publish_date }}"></p>
+        <p>出版社:
+            {% for publish_obj in publish_queryset %}
+                {% if publish_obj == book_obj.publish %}
+                	<input type="radio" name="publish_id" value="{{ publish_obj.id }}" checked>{{ publish_obj.name }}
+                {% else %}
+                    <input type="radio" name="publish_id" value="{{ publish_obj.id }}">{{ publish_obj.name }}
+                {% endif %}
+            {% endfor %}
+        </p>
+        <p>作者:
+            {% for author_obj in author_queryset %}
+                {% if author_obj in book_obj.author.all %}
+                	<input type="checkbox" name="author" value="{{ author_obj.id }}" checked>{{ author_obj.name }}
+                {% else %}
+                    <input type="checkbox" name="author" value="{{ author_obj.id }}">{{ author_obj.name }}
+                {% endif %}
+            {% endfor %}
+        </p>
+        <input type="submit" class="btn btn-primary">
+    </form>
+{% endblock %}

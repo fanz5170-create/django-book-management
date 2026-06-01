@@ -1,0 +1,38 @@
+{% extends 'home.html' %}
+
+{% block content %}
+	<h3 class="text-center">图书列表</h3>
+    <a href="{% url 'book_add' %}" class="btn btn-success">添加</a>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>id</th>
+                <th>书名</th>
+                <th>价格</th>
+                <th>作者</th>
+                <th>出版社</th>
+                <th>出版日期</th>
+                <th>操作</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <thead>
+            {% for book_obj in book_queryset %}
+            	<tr>
+                    <td>{{ book_obj.id }}</td>
+                    <td>{{ book_obj.title }}</td>
+                    <td>{{ book_obj.price }}</td>
+                    <td>
+                        {% for author_obj in book_obj.author.all %}
+                        	{{ author_obj.name }}
+                        {% endfor %}
+                    </td>
+                    <td>{{ book_obj.publish.name }}</td>
+                    <td>{{ book_obj.publish_date|date:'Y年m月d日' }}</td>
+                    <td><a href="/book/edit/?edit_id={{  book_obj.id }}" class="btn btn-xs btn-primary">编辑</a></td>
+                    <td><a href="{% url 'book_delete' book_obj.id  %}" class="btn btn-xs btn-danger">删除</a></td>
+                </tr>
+            {% endfor %}
+        </thead>
+    </table>
+{% endblock %}
